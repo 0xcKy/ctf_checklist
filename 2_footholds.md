@@ -33,13 +33,17 @@ Once your spreadsheet is built with the relevant information, it's time to try a
 
 ### [[80 - WEB]]
 
+* Visit site in the browser and look for any context clues
+	* Check for commom files as /robots.txt, sitemap.xml, /.well-known/security.txt
+  	* See if there's any hint for FQDN and put it in `/etc/hosts`
+	* See if there's any hints to valid users or software in pages or source code
 * Check version using `searchsploit` for public exploits (Traversal, SQLi, RCE)
 * Check to see if anything else is running using `whatweb http://10.10.10.10` (searchsploit, wordpress)
 * Fully enumerate with directory brute-forcing
-	* Run multiple tools and check for file extensions, try from deeper directories
-* Visit site in the browser and look for any context clues
-	* See if there's any hint for FQDN and put it in `/etc/hosts`
-	* See if there's any hints to valid users or software in pages or source code
+	* Run multiple tools, try from deeper directories
+ 	* Test for multiple file extensions (.php, .html, .txt, .js)
+  	* Use diferent wordlists
+
 * Test everything for default credentials or username being the password
 
 ### [[161 - SNMP]]
