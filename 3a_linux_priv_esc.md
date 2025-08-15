@@ -51,6 +51,7 @@
   	- exec script from terminal
 - **Check processes**
 	- `ps aux` `ps -ef` `watch -n 1 "ps -aux | grep pass"`
+ 	- monitor for process without root privileges using [pspy64s](https://github.com/DominicBreuker/pspy)
 - **Check your writable/usable files & file permissions**
 	- `find / -writable -type d 2>/dev/null`
 	- `find / -perm -u=s -type f 2>/dev/null`
