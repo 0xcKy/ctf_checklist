@@ -1,17 +1,7 @@
-# 02. Footholds
+## 02. Footholds
 Once your spreadsheet is built with the relevant information, it's time to try and get a foothold.
 
-|Service|Service|Service|
-|---|---|---|
-|[[21 - FTP]]|[[22 - SSH]]|[[23 - TELNET]]|
-|[[25 - SMTP]]|[[53 - DNS]]|[[80 - WEB]]|
-|[[88 - KERBEROS]]|[[111 - NFS]]|[[135 - RPC]]|
-|[[445 - SMB]]|[[161 - SNMP]]|[[389 - LDAP]]|
-|[[3389 - RDP]]|[[5985 - WINRM]]|[[SQL DBs]]|
-
----
-
-## What to look for
+### What to look for
 
 * Look at the service version of ports and see if there is any low-hanging fruit or public exploits
 * If nothing easy is found, look deeper into the services (FTP,SMB,NFS,SMTP,WEB)
@@ -20,18 +10,36 @@ Once your spreadsheet is built with the relevant information, it's time to try a
 * Check if there's any files that give contextual hints or point towards a vulnerable service running on an unknown port
 * Open each service note and dig deep starting with FTP, SNMP, SMB, HTTP
 
----
-
-
-### [[21 - FTP]]
+### [21 - FTP]
 
 * Check version using `searchsploit` for public exploits
 * Check for `anonymous` login
 * Check for hints within the directory (i.e. `minniemouse.exe`)
 * Download the directory `wget -m ftp://anonymous:anonymous@192.168.215.245`
 * Check if there's anything that points towards uploads going to the web directory
+* `nmap --script=ftp-anon,ftp-libopie,ftp-proftpd-backdoor,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221,tftp-enum -p 21 INSERTIPADDRESS`
 
-### [[80 - WEB]]
+### [22 - SSH]
+
+* Check version using `searchsploit` for public exploits
+* Check for default logins (username:username, root:root)
+
+### [25 - SMTP]
+
+	nc -nvv INSERTIPADDRESS 25 
+ 	HELO foo
+
+	telnet INSERTIPADDRESS 25
+	VRFY root
+	EXPN all
+ 
+* Check version using `searchsploit` for public exploits
+* `nmap --script=smtp-commands,smtp-enum-users,smtp-vuln-cve2010-4344,smtp-vuln-cve2011-1720,smtp-vuln-cve2011-1764 -p 25 INSERTIPADDRESS`
+
+### [53- DNS]
+* `gobuster -m dns -w subdomains.txt -u google.com`
+  
+### [80 - WEB]
 
 * Visit site in the browser and look for any context clues
 	* Check for commom files as /robots.txt, sitemap.xml, /.well-known/security.txt
@@ -46,7 +54,7 @@ Once your spreadsheet is built with the relevant information, it's time to try a
 
 * Test everything for default credentials or username being the password
 
-### [[161 - SNMP]]
+### [161 - SNMP]
 - Enumerate community strings on v1 and v2
 	- `sudo nmap -sU -p 161 --script snmp-brute 192.168.194.149`
 - Try to get useful information from accessible communities
