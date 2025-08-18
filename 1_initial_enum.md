@@ -1,22 +1,31 @@
-# 01. Initial Enumeration
+## 01. Initial Enumeration
 `mkdir machine && cd machine`
-
 Compile a list of accessible hosts and add it to a `hosts.txt` file.
-
 Run one or more scans on the host:
 
-* Nmap
-	* `sudo nmap -sV -O -A -Pn -p- -iL hosts.txt`
-* Autorecon
-	* `sudo su` `/home/kali/.local/bin/autorecon -t hosts.txt`
-* Incursore 
-	* `mkdir incursore && cd incursore` `sudo ~/tools/incursore/incursore.sh -t all -H $IP`
-  * https://github.com/wirzka/incursore 
 
-**Hosts with specific port open:**
-`nmap --open -p 111 10.11.1.0/24 -oG - | grep "/open" | awk '{ print $2 }'`
-
----
+### discover hosts
+	netdiscover -r 10.0.0.0/24
+	
+### scan subnet for hosts
+	nmap -v -sn 10.0.0.0/24
+	
+### TCP syn scan
+	sudo nmap -sSCV -O -Pn -p- -oN nmap.txt INSERTIPADDRESS
+ 
+	sudo su /home/kali/.local/bin/autorecon -t hosts.txt
+ 
+	mkdir incursore && cd incursore` `sudo ~/tools/incursore/incursore.sh -t all -H $IP
+ **Hosts with specific port open:** `nmap --open -p 111 10.11.1.0/24 -oG - | grep "/open" | awk '{ print $2 }'`
+	
+### UDP scan
+	nmap INSERTIPADDRESS -sU
+### scan through proxychains
+	proxychains nmap -v -sT 10.3.3.34 -Pn
+### unicornscan
+	unicornscan -mU -v -I INSERTIPADDRESS
+### connect to udp if one is open
+	nc -u INSERTIPADDRESS PORT
 
 ### Information to Note
 
@@ -29,27 +38,8 @@ Review the completed scans and mark down any notable information in your spreads
 * Anonymous or Guest access
 * Random port with no info? try `nc IP PORT` or `echo "version" | nc IP PORT`
 
-|IP|Hostname|OS|
-|---|---|---|
-|192.168.201.145|FILES01|Windows Server 2012|
-
 |Port|Service|Notes|
 |---|---|---|
 |21|vsftpd 2.0.8 or later|Anonymous Allowed|
 |22|OpenSSH for_Windows_8.1 (protocol 2.0)|Accepts Passwords|
 |80|Apache httpd 2.4.51 ((Win64) PHP/7.4.26)|Attendance and Payroll System|
-
----
-
-
-### Additional Service Enumeration
-
-Quick links to information by service:
-
-|Service|Service|Service|
-|---|---|---|
-|[[21 - FTP]]|[[22 - SSH]]|[[23 - TELNET]]|
-|[[25 - SMTP]]|[[53 - DNS]]|[[80 - WEB]]|
-|[[88 - KERBEROS]]|[[111 - NFS]]|[[135 - RPC]]|
-|[[445 - SMB]]|[[161 - SNMP]]|[[389 - LDAP]]|
-|[[3389 - RDP]]|[[5985 - WINRM]]|[[SQL DBs]]|
