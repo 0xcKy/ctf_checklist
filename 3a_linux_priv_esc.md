@@ -20,6 +20,9 @@
 	- `ls -la /etc/passwd` `cat /etc/passwd`
    		- `openssl passwd -1 -salt hacker hacker` and replace `root` password entry (or delete `x`)
 		- `su root` `hacker` 
+- **Check for directories and files**
+	- /opt, /tmp, /var
+ 	- .bash_history from users
  	- check for passwords and info from user on /var/logs using `grep iR username`
 - **KERNEL - Get kernel version** 
 	- `uname -a` or `cat /proc/version` or `cat /etc/issue`
